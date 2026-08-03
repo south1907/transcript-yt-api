@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Transcript Worker</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --panel: #1a2332;
+      --text: #e7ecf3;
+      --muted: #8b9bb4;
+      --accent: #e11d48;
+      --ok: #22c55e;
+      --bad: #ef4444;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      width: 320px;
+      font: 13px/1.45 "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    header {
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid #243044;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 650;
+      letter-spacing: 0.02em;
+    }
+    header p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 6px;
+      background: var(--bad);
+      vertical-align: middle;
+    }
+    .dot.on { background: var(--ok); }
+    main { padding: 14px 16px 16px; }
+    label {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    input {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #2d3b52;
+      background: var(--panel);
+      color: var(--text);
+      margin-bottom: 10px;
+      outline: none;
+    }
+    input:focus { border-color: var(--accent); }
+    .row { display: flex; gap: 8px; }
+    button {
+      flex: 1;
+      border: 0;
+      border-radius: 8px;
+      padding: 9px 10px;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--accent);
+      color: #fff;
+    }
+    button.secondary {
+      background: #243044;
+      color: var(--text);
+    }
+    .meta {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .meta strong { color: var(--text); }
+    .err { color: #fca5a5; margin-top: 6px; word-break: break-word; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><span id="dot" class="dot"></span>Transcript Worker</h1>
+    <p id="statusText">Connecting…</p>
+  </header>
+  <main>
+    <label for="serverUrl">Server URL</label>
+    <input id="serverUrl" type="url" placeholder="http://127.0.0.1:5001" />
+
+    <label for="workerToken">Worker token (optional)</label>
+    <input id="workerToken" type="password" placeholder="same as WORKER_TOKEN on server" />
+
+    <div class="row">
+      <button id="saveBtn" type="button">Save &amp; Connect</button>
+      <button id="reconnectBtn" class="secondary" type="button">Reconnect</button>
+    </div>
+
+    <div class="meta">
+      <div>Jobs done: <strong id="jobsDone">0</strong></div>
+      <div>Socket ID: <strong id="socketId">—</strong></div>
+      <div class="err" id="lastError"></div>
+    </div>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>

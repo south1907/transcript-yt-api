@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  transcript-api:
+    build: ./server
+    ports:
+      - "5000:5000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=5000
+      - SECRET_KEY=${SECRET_KEY:-change-me}
+      - API_KEY=${API_KEY:-}
+      - WORKER_TOKEN=${WORKER_TOKEN:-}
+      - JOB_TIMEOUT_SEC=45
+      - CORS_ORIGINS=*
+    restart: unless-stopped
