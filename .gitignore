@@ -1,3 +1,6 @@
+run/
+logs/
+*.pid
 .venv/
 __pycache__/
 *.pyc

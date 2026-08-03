@@ -50,7 +50,36 @@ curl -X POST http://127.0.0.1:5001/api/transcript/get \
   -d '{"url":"https://www.youtube.com/watch?v=jNQXAC9IVRw"}'
 ```
 
-## Deploy on server
+## Deploy on Ubuntu (background)
+
+### Option A — script start/stop (gunicorn daemon)
+
+```bash
+cd /path/to/transcript-api/server
+chmod +x scripts/transcript-api.sh
+
+./scripts/transcript-api.sh start     # chạy nền
+./scripts/transcript-api.sh stop
+./scripts/transcript-api.sh restart
+./scripts/transcript-api.sh status
+./scripts/transcript-api.sh logs      # tail log
+```
+
+Config trong `server/.env` (`PORT=5000`, `HOST=0.0.0.0`, …).
+
+### Option B — systemd (khuyến nghị production)
+
+```bash
+cd /path/to/transcript-api/server
+sudo ./scripts/install-systemd.sh /opt/transcript-api
+
+sudo systemctl start transcript-api
+sudo systemctl stop transcript-api
+sudo systemctl restart transcript-api
+sudo systemctl status transcript-api
+```
+
+### Docker
 
 ```bash
 docker compose up -d --build

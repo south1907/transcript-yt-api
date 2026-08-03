@@ -1,0 +1,34 @@
+[Unit]
+Description=YouTube Transcript API (Flask + WebSocket workers)
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/transcript-api/server
+EnvironmentFile=-/opt/transcript-api/server/.env
+Environment=HOST=0.0.0.0
+Environment=PORT=5000
+ExecStart=/opt/transcript-api/server/.venv/bin/gunicorn \
+  --worker-class gthread \
+  --workers 1 \
+  --threads 20 \
+  --bind ${HOST}:${PORT} \
+  --timeout 120 \
+  --access-logfile /opt/transcript-api/server/logs/access.log \
+  --error-logfile /opt/transcript-api/server/logs/transcript-api.log \
+  --capture-output \
+  wsgi:app
+ExecReload=/bin/kill -s HUP $MAINPID
+Restart=always
+RestartSec=3
+KillMode=mixed
+TimeoutStopSec=15
+
+# Hardening (optional)
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
